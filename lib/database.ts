@@ -10,10 +10,6 @@ import {
   SQLite3Options,
 } from "./connectors/sqlite3-connector.ts";
 import { MySQLOptions, MySQLConnector } from "./connectors/mysql-connector.ts";
-import {
-  MongoDBOptions,
-  MongoDBConnector,
-} from "./connectors/mongodb-connector.ts";
 import { formatResultToModelInstance } from "./helpers/results.ts";
 import { Translator } from "./translators/translator.ts";
 import { SQLTranslator } from "./translators/sql-translator.ts";
@@ -56,8 +52,7 @@ export class Database {
     connectionOptions:
       | PostgresOptions
       | SQLite3Options
-      | MySQLOptions
-      | MongoDBOptions,
+      | MySQLOptions,
   ) {
     this._dialect = typeof databaseOptionsOrDialect === "object"
       ? databaseOptionsOrDialect.dialect
@@ -84,12 +79,6 @@ export class Database {
 
       case "mysql":
         this._connector = new MySQLConnector(connectionOptions as MySQLOptions);
-        break;
-
-      case "mongo":
-        this._connector = new MongoDBConnector(
-          connectionOptions as MongoDBOptions,
-        );
         break;
 
       default:
